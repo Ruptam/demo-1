@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/test")
 public class UserController {
+	
     @GetMapping("/all")
     public String allAccess() {
         return "Public Content.";
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('TUTOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String userAccess() {
         return "User Content.";
     }

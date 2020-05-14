@@ -1,4 +1,4 @@
-package payloads;
+package com.example.demo.payload;
 
 import java.util.List;
 

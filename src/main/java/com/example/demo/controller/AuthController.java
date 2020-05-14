@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
+import com.example.demo.payload.JwtResponse;
+import com.example.demo.payload.LoginRequest;
+import com.example.demo.payload.MessageResponse;
+import com.example.demo.payload.SignupRequest;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtils;
 import com.example.demo.service.UserDetailsImpl;
 import com.example.demo.util.ERole;
-
-import payloads.JwtResponse;
-import payloads.LoginRequest;
-import payloads.MessageResponse;
-import payloads.SignupRequest;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/animalShelter/")
+@RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -88,10 +87,13 @@ public class AuthController {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = new HashSet<>();
+       /* Set<String> strRoles = new HashSet<>();
         strRoles.add(ERole.ROLE_USER.toString());
         Set<Role> roles = new HashSet<>();
-        System.out.print(ERole.ROLE_USER);
+        System.out.print(ERole.ROLE_USER);*/
+        
+        Set<String> strRoles = signUpRequest.getRoles();
+		Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -123,6 +125,6 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+       return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
