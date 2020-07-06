@@ -26,4 +26,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 
+    
+    //write a new method to update the password.
+    public User changePassword(String password) {
+    	User user = new User();
+    	user.setPassword(password);
+    	//set all rest of the variable of user. Make sure the primary key of the suer should not changed.
+    	return userRepository.save(user);
+    }
 }
